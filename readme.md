@@ -15,7 +15,7 @@ Or add the following to your composer.json's require section and `composer updat
 
 ```json
 "require": {
-	"maddhatter/laravel-fullcalendar": "~1.0"
+	"abhidigimonksolutions/laravel-fullcalendar": "~1.0"
 }
 ```
 
@@ -24,13 +24,13 @@ Or add the following to your composer.json's require section and `composer updat
 Register the service provider in your `app.php` config file:
 
 ```php
-MaddHatter\LaravelFullcalendar\ServiceProvider::class,
+abhidigimonksolutions\LaravelFullcalendar\ServiceProvider::class,
 ```
 
 And optionally create an alias:
 
 ```php
-'Calendar' => MaddHatter\LaravelFullcalendar\Facades\Calendar::class,
+'Calendar' => abhidigimonksolutions\LaravelFullcalendar\Facades\Calendar::class,
 
 ```
 
