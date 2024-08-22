@@ -1,10 +1,11 @@
-<?php namespace abhidigimonksolutions\LaravelFullcalendar;
+<?php
+
+namespace abhidigimonksolutions\LaravelCalendar;
 
 use Illuminate\Support\Collection;
 
 class EventCollection
 {
-
     /**
      * @var Collection
      */

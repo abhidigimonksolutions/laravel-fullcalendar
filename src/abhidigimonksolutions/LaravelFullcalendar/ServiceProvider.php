@@ -1,10 +1,11 @@
-<?php namespace abhidigimonksolutions\LaravelFullcalendar;
+<?php
+
+namespace abhidigimonksolutions\LaravelCalendar;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 class ServiceProvider extends BaseServiceProvider
 {
-
     /**
      * Register the service provider.
      *
@@ -12,14 +13,14 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register()
     {
-        $this->app->bind('laravel-fullcalendar', function ($app) {
-            return $app->make('abhidigimonksolutions\LaravelFullcalendar\Calendar');
+        $this->app->bind('laravel-calendar', function ($app) {
+            return $app->make('abhidigimonksolutions\LaravelCalendar\Calendar');
         });
     }
 
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__ . '/../../views/', 'fullcalendar');
+        $this->loadViewsFrom(__DIR__.'/views/', 'laravel-calendar');
     }
 
     /**
@@ -29,8 +30,6 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function provides()
     {
-        return ['laravel-fullcalendar'];
+        return ['laravel-calendar'];
     }
-
 }
-

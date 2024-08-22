@@ -1,4 +1,6 @@
-<?php namespace abhidigimonksolutions\LaravelFullcalendar;
+<?php
+
+namespace abhidigimonksolutions\LaravelCalendar;
 
 use ArrayAccess;
 use DateTime;

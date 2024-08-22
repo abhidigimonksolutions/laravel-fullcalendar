@@ -1,4 +1,6 @@
-<?php namespace abhidigimonksolutions\LaravelFullcalendar;
+<?php
+
+namespace abhidigimonksolutions\LaravelCalendar;
 
 use DateTime;
 
@@ -31,5 +33,4 @@ interface Event
      * @return DateTime
      */
     public function getEnd();
-
 }
