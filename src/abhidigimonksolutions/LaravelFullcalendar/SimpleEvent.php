@@ -1,6 +1,6 @@
 <?php
 
-namespace abhidigimonksolutions\LaravelCalendar;
+namespace abhidigimonksolutions\LaravelFullcalendar;
 
 use DateTime;
 
@@ -9,7 +9,7 @@ use DateTime;
  *
  * Simple DTO that implements the Event interface
  *
- * @package abhidigimonksolutions\LaravelCalendar
+ * @package abhidigimonksolutions\LaravelFullcalendar
  */
 class SimpleEvent implements IdentifiableEvent
 {

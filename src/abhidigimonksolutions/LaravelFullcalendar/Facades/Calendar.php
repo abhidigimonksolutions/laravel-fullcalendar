@@ -1,6 +1,6 @@
 <?php
 
-namespace abhidigimonksolutions\LaravelCalendar\Facades;
+namespace abhidigimonksolutions\LaravelFullcalendar\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

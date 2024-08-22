@@ -1,6 +1,6 @@
 <?php
 
-namespace abhidigimonksolutions\LaravelCalendar;
+namespace abhidigimonksolutions\LaravelFullcalendar;
 
 interface IdentifiableEvent extends Event
 {
