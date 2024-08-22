@@ -3,10 +3,11 @@
 use ArrayAccess;
 use DateTime;
 use Illuminate\View\Factory;
+use Illuminate\Support\Str;
+use View;
 
 class Calendar
 {
-
     /**
      * @var Factory
      */
@@ -23,17 +24,24 @@ class Calendar
     protected $id;
 
     /**
+     * @var bool
+     */
+    protected $es6 = false;
+
+    /**
      * Default options array
      *
      * @var array
      */
     protected $defaultOptions = [
-        'header' => [
+        'initialView' => 'dayGridMonth',
+        'height' => 'auto',
+        'headerToolbar' => [
             'left' => 'prev,next today',
             'center' => 'title',
-            'right' => 'month,agendaWeek,agendaDay',
+            'right' => 'dayGridMonth,dayGridWeek,listWeek',
         ],
-        'eventLimit' => true,
+        'dayMaxEventRows' => true,
     ];
 
     /**
@@ -54,10 +62,9 @@ class Calendar
      * @param Factory         $view
      * @param EventCollection $eventCollection
      */
-    public function __construct(Factory $view, EventCollection $eventCollection)
+    public function __construct()
     {
-        $this->view            = $view;
-        $this->eventCollection = $eventCollection;
+        $this->eventCollection = new EventCollection();
     }
 
     /**
@@ -95,7 +102,7 @@ class Calendar
     {
         $options = $this->getOptionsJson();
 
-        return $this->view->make('fullcalendar::script', [
+        return view($this->getEs6() ? 'laravel-calendar::script-es6' : 'laravel-calendar::script', [
             'id' => $this->getId(),
             'options' => $options,
         ]);
@@ -122,13 +129,36 @@ class Calendar
      */
     public function getId()
     {
-        if ( ! empty($this->id)) {
+        if (! empty($this->id)) {
             return $this->id;
         }
 
-        $this->id = str_random(8);
+        $this->id = Str::random(8);
 
         return $this->id;
+    }
+
+    /**
+     * change setting to output script in ES6 compatible format
+     *
+     * @param bool $value
+     * @return $this
+     */
+    public function setEs6(bool $value=true)
+    {
+        $this->es6 = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get the current ES6 value
+     *
+     * @return bool
+     */
+    public function getEs6()
+    {
+        return $this->es6;
     }
 
     /**
@@ -162,7 +192,7 @@ class Calendar
     }
 
     /**
-     * Set fullcalendar options
+     * Set calendar options
      *
      * @param array $options
      * @return $this
@@ -175,7 +205,7 @@ class Calendar
     }
 
     /**
-     * Get the fullcalendar options (not including the events list)
+     * Get the calendar options (not including the events list)
      *
      * @return array
      */
@@ -185,7 +215,7 @@ class Calendar
     }
 
     /**
-     * Set fullcalendar callback options
+     * Set calendar callback options
      *
      * @param array $callbacks
      * @return $this
@@ -223,14 +253,13 @@ class Calendar
             $parameters['events'] = $this->eventCollection->toArray();
         }
 
-        $json = json_encode($parameters);
+        $json = $this->replaceKeys(json_encode($parameters, JSON_PRETTY_PRINT));
 
         if ($placeholders) {
             return $this->replaceCallbackPlaceholders($json, $placeholders);
         }
 
         return $json;
-
     }
 
     /**
@@ -270,4 +299,47 @@ class Calendar
         return str_replace($search, $replace, $json);
     }
 
+    /**
+     * Replace keys with non-JSON encoded values
+     *
+     * @param $json
+     * @return string
+     */
+    protected function replaceKeys($json)
+    {
+        $search  = [];
+        $replace = [];
+
+        foreach (json_decode($json) as $key => $value) {
+            // Stripping double quotes from plugins values
+            if(strtolower($key) === 'plugins' || strtolower($key) === 'locales'){
+                if(is_array($value)) {
+                    foreach ($value as $key) {
+                        $search[] = '"' . $key . '"';
+                        $replace[] = $key;
+                    }
+                }
+                else{
+                    $search[] = '"' . $value . '"';
+                    $replace[] = $value;
+                }
+            }
+
+            // Stripping double quotes from custom button callback option
+            if(strtolower($key) === 'custombuttons'){
+                foreach ($value as $key => $value) { // buttons
+                    foreach ($value as $key => $value) { // buttons options
+                        if(strtolower($key) === 'click'){
+                            $search[]  = json_encode($value);
+                            $replace[] = '' . $value . '';
+                        }
+                    }
+                }
+            }
+        }
+        $json = str_replace($search, $replace, $json);
+
+        return preg_replace('/"(.+)":/i', '${1}:', $json);
+
+    }
 }
