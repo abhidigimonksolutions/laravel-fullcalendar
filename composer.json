@@ -23,7 +23,7 @@
                 "abhidigimonksolutions\\LaravelFullcalendar\\ServiceProvider"
             ],
             "aliases": {
-                "Calendar": "abhidigimonksolutions\\LaravelFullcalendar\\Facades\\Calendar"
+                "Calendar": "abhidigimonksolutions\\LaravelFullcalendar\\Calendar"
             }
         }
     },

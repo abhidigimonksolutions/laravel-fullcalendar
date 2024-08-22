@@ -56,10 +56,10 @@ $event = \Calendar::event(
 ```
 #### Implementing `Event` Interface
 
-Alternatively, you can use an existing class and have it implement `MaddHatter\LaravelFullcalendar\Event`. An example of an Eloquent model that implements the `Event` interface:
+Alternatively, you can use an existing class and have it implement `abhidigimonksolutions\LaravelFullcalendar\Event`. An example of an Eloquent model that implements the `Event` interface:
 
 ```php
-class EventModel extends Eloquent implements \MaddHatter\LaravelFullcalendar\Event
+class EventModel extends Eloquent implements \abhidigimonksolutions\LaravelFullcalendar\Event
 {
 
     protected $dates = ['start', 'end'];
@@ -117,10 +117,10 @@ class EventModel extends Eloquent implements \MaddHatter\LaravelFullcalendar\Eve
 
 #### `IdentifiableEvent` Interface
 
-If you wish for your existing class to have event IDs, implement `\MaddHatter\LaravelFullcalendar\IdentifiableEvent` instead. This interface extends `\MaddHatter\LaravelFullcalendar\Event` to add a `getId()` method:
+If you wish for your existing class to have event IDs, implement `\abhidigimonksolutions\LaravelFullcalendar\IdentifiableEvent` instead. This interface extends `\abhidigimonksolutions\LaravelFullcalendar\Event` to add a `getId()` method:
 
 ```php
-class EventModel extends Eloquent implements \MaddHatter\LaravelFullcalendar\IdentifiableEvent
+class EventModel extends Eloquent implements \abhidigimonksolutions\LaravelFullcalendar\IdentifiableEvent
 {
 
 	// Implement all Event methods ...
@@ -163,7 +163,7 @@ $event = \Calendar::event(
 
 ```php
 <?php
-class CalendarEvent extends \Illuminate\Database\Eloquent\Model implements \MaddHatter\LaravelFullcalendar\Event
+class CalendarEvent extends \Illuminate\Database\Eloquent\Model implements \abhidigimonksolutions\LaravelFullcalendar\Event
 {
 	//...
 
@@ -209,7 +209,7 @@ $events[] = \Calendar::event(
 	'stringEventId' //optionally, you can specify an event ID
 );
 
-$eloquentEvent = EventModel::first(); //EventModel implements MaddHatter\LaravelFullcalendar\Event
+$eloquentEvent = EventModel::first(); //EventModel implements abhidigimonksolutions\LaravelFullcalendar\Event
 
 $calendar = \Calendar::addEvents($events) //add an array with addEvents
     ->addEvent($eloquentEvent, [ //set custom color fo this event
